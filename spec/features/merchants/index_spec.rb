@@ -140,6 +140,7 @@ RSpec.describe 'Merchants Dashboard Page' do
 
           click_on('Current Discounts')
         end
+
         expect(current_path).to eq(merchant_discounts_path(@merchant1))
       end
     end
