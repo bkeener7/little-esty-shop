@@ -22,9 +22,9 @@ RSpec.describe 'Merchant Invoice Show Page' do
   let!(:item4) { create(:item, merchant: merchant2) }
 
   let!(:invoice_item1) { create(:invoice_item, item: item1, invoice: invoice1, status: 'packaged') }
-  let!(:invoice_item2) { create(:invoice_item, item: item2, invoice: invoice2) }
-  let!(:invoice_item3) { create(:invoice_item, item: item3, invoice: invoice3) }
-  let!(:invoice_item4) { create(:invoice_item, item: item4, invoice: invoice4) }
+  let!(:invoice_item2) { create(:invoice_item, item: item2, invoice: invoice2, status: 'packaged') }
+  let!(:invoice_item3) { create(:invoice_item, item: item3, invoice: invoice3, status: 'packaged') }
+  let!(:invoice_item4) { create(:invoice_item, item: item4, invoice: invoice4, status: 'packaged') }
   let!(:invoice_item5) { create(:invoice_item, item: item2, invoice: invoice1, status: 'packaged') }
 
   let!(:transaction1) { create(:transaction, invoice: invoice1) }
