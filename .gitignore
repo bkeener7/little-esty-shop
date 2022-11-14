@@ -28,3 +28,5 @@
 
 coverage
 .rubocop.yml
+.vscode
+.vscode/settings.json

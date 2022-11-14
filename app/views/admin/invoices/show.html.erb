@@ -4,7 +4,6 @@
 <h4>Customer Name: <%= @invoice.customer.full_name %></h4>
 <%= form_with url: "/admin/invoices/#{@invoice.id}", method: "PATCH" do |form| %>
     <%= form.label :status, 'Status:'%>
-
     <%= form.radio_button :status, "in progress" %>
     <%= form.label :status, "In Progress" %>
     <%= form.radio_button :status, "completed" %>
@@ -12,10 +11,8 @@
     <%= form.radio_button :status, "cancelled" %>
     <%= form.label :status, "Cancelled" %>
     <%= form.submit 'Update Invoice Status' %>
-
 <% end %>
 <br>
-
 <h1>Invoice Items:</h1>
 <% @invoice.invoice_items.each do |invoice_item|%>
     <div id="item-<%= invoice_item.id %>">

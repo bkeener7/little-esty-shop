@@ -49,38 +49,33 @@ RSpec.describe 'Merchants Dashboard Page' do
     @transaction12 = Transaction.create!(credit_card_number: '4636896899878732', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice9.id)
     @transaction13 = Transaction.create!(credit_card_number: '4636896899878732', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice10.id)
     @transaction14 = Transaction.create!(credit_card_number: '4636896899845752', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice11.id)
+
+    visit merchant_dashboard_index_path(@merchant1)
   end
 
   describe 'when I visit the merchant dashboard' do
     it 'sees the name of my merchant' do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/dashboard")
+      expect(current_path).to eq(merchant_dashboard_index_path(@merchant1))
       expect(page).to have_content('Marvel')
       expect(page).to_not have_content('D.C.')
     end
 
     it 'sees a link to my merchant items index' do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-
       expect(page).to have_link('My Items')
       click_on('My Items')
 
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
+      expect(current_path).to eq(merchant_items_path(@merchant1))
     end
 
     it 'sees a link to my merchant invoices index' do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-
       expect(page).to have_link('My Invoices')
       click_on('My Invoices')
 
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
+      expect(current_path).to eq(merchant_invoices_path(@merchant1))
     end
 
     describe 'favorite customers' do
       it 'sees the names of the top 5 customers that conduct the largest number of successful transactions with merchants' do
-        visit "/merchants/#{@merchant1.id}/dashboard"
         within('#top_customers') do
           expect(@customer2.full_name).to appear_before(@customer3.full_name)
           expect(@customer3.full_name).to appear_before(@customer1.full_name)
@@ -91,7 +86,6 @@ RSpec.describe 'Merchants Dashboard Page' do
       end
 
       it 'has the number of successful transactions with the merchant next to each customer' do
-        visit "/merchants/#{@merchant1.id}/dashboard"
         within('#top_customers') do
           expect(page).to have_content("#{@customer2.full_name} - Successful transactions: 3")
           expect(page).to have_content("#{@customer3.full_name} - Successful transactions: 2")
@@ -104,8 +98,6 @@ RSpec.describe 'Merchants Dashboard Page' do
 
     describe 'items ready to ship' do
       it 'has a section with list of names of items that have not yet shipped with a link to their merchant invoice show page' do
-        visit "/merchants/#{@merchant1.id}/dashboard"
-
         within('#items_ready_to_ship') do
           expect(page).to have_content(@item1.name)
           expect(page).to have_content(@invoice1.id)
@@ -123,12 +115,10 @@ RSpec.describe 'Merchants Dashboard Page' do
 
         click_on(@invoice1.id.to_s)
 
-        expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}")
+        expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice1))
       end
 
       it 'has the date of each item ready to ship from oldest to newest' do
-        visit "/merchants/#{@merchant1.id}/dashboard"
-
         within('#items_ready_to_ship') do
           expect(page).to have_content(@invoice1.created_at.strftime('%A, %B %e, %Y'))
           expect(page).to have_content(@invoice3.created_at.strftime('%A, %B %e, %Y'))
@@ -140,6 +130,18 @@ RSpec.describe 'Merchants Dashboard Page' do
           expect("#{@invoice4.id}").to appear_before("#{@invoice5.id}")
           expect("#{@invoice5.id}").to appear_before("#{@invoice6.id}")
         end
+      end
+    end
+
+    describe 'merchant discounts' do
+      it 'has a link to view all my discounts' do
+        within '#discounts' do
+          expect(page).to have_link('Current Discounts')
+
+          click_on('Current Discounts')
+        end
+
+        expect(current_path).to eq(merchant_discounts_path(@merchant1))
       end
     end
   end
