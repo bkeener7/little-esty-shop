@@ -36,10 +36,12 @@ RSpec.describe 'bulk discounts index page' do
   let!(:bulk_discount3) { create(:bulk_discount, merchant: merchant2) }
   let!(:bulk_discount4) { create(:bulk_discount, merchant: merchant2) }
 
+  before :each do
+    visit merchant_discounts_path(merchant1)
+  end
+
   describe 'when I visit my bulk discounts index page' do
     it 'has all bulk discounts including their percentage discount and quantity thresholds' do
-      visit merchant_discounts_path(merchant1)
-
       within '#current_discounts' do
         expect(page).to have_content("Percentage Discount - #{bulk_discount1.percentage_discount}")
         expect(page).to have_content("Quantity Threshold - #{bulk_discount1.quantity_threshold}")
@@ -53,7 +55,6 @@ RSpec.describe 'bulk discounts index page' do
     end
 
     it 'has links to each bulk discount show page' do
-      visit merchant_discounts_path(merchant1)
       within '#current_discounts' do
         expect(page).to have_link("Discount #{bulk_discount1.id}")
         expect(page).to have_link("Discount #{bulk_discount2.id}")
@@ -62,7 +63,36 @@ RSpec.describe 'bulk discounts index page' do
 
         click_link("Discount #{bulk_discount1.id}")
       end
+
       expect(current_path).to eq(merchant_discount_path(merchant1, bulk_discount1))
+    end
+
+    it 'has a link to create a new discount' do
+      within '#new_discount' do
+        expect(page).to have_link('Create New Discount')
+        click_link('Create New Discount')
+      end
+
+      expect(current_path).to eq(new_merchant_discount_path(merchant1))
+    end
+
+    it 'has a link to delete a discount' do
+      within "#discount-#{bulk_discount1.id}" do
+        expect(page).to have_link('Delete this discount')
+      end
+    end
+
+    it 'deleting a discount returns to the index page with the discount no longer present' do
+      within "#discount-#{bulk_discount1.id}" do
+        click_link('Delete this discount')
+      end
+
+      within '#current_discounts' do
+        expect(current_path).to eq(merchant_discounts_path(merchant1))
+        expect(page).to_not have_content("Percentage Discount - #{bulk_discount1.percentage_discount}")
+        expect(page).to_not have_content("Quantity Threshold - #{bulk_discount1.quantity_threshold}")
+        expect(page).to_not have_link("Discount #{bulk_discount1.id}")
+      end
     end
   end
 end
