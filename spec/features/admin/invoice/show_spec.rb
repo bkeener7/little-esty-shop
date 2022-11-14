@@ -17,6 +17,7 @@ RSpec.describe 'admin/invoices/invoice.id' do
     @transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: @invoice_1.id)
     @transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: @invoice_1.id)
   end
+
   describe 'invoice show, has invoice info, invoice items info, and total revenue' do
     it 'shows related information to a specific invoice' do
       visit "/admin/invoices/#{@invoice_1.id}"
@@ -29,7 +30,7 @@ RSpec.describe 'admin/invoices/invoice.id' do
 
     it 'shows all items on the invoice including item name, quantity, price, status' do
       visit "/admin/invoices/#{@invoice_1.id}"
-      # within("#invoice_item-#{invoice}")
+
       expect(page).to have_content('Invoice Items:')
       expect(page).to have_content('Item Name: item1')
       expect(page).to have_content('Unit Price: 10')
@@ -41,9 +42,8 @@ RSpec.describe 'admin/invoices/invoice.id' do
       expect(page).to have_content('Quantity: 11')
       expect(page).to have_content('Status: packaged')
     end
-    #   When I visit an admin invoice show page
-    # Then I see the total revenue that will be generated from this invoice
-    it 'i see the total revenue that will be generated from this invoice' do
+
+    it 'I see the total revenue that will be generated from this invoice' do
       visit "/admin/invoices/#{@invoice_1.id}"
 
       expect(page).to have_content('Total Revenue of All Items: 222')
