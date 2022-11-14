@@ -36,4 +36,10 @@ FactoryBot.define do
     result { rand(0..1) }
     association :invoice, factory: :invoice
   end
+
+  factory :bulk_discount, class: BulkDiscount do
+    percentage_discount { Faker::Number.between(from: 1, to: 100) }
+    quantity_threshold { Faker::Number.within(range: 10..100) }
+    association :merchant, factory: :merchant
+  end
 end
