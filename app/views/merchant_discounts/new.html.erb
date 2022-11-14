@@ -1,0 +1,10 @@
+<h2>Create new discount for <%= @merchant.name %></h2>
+<div id='new_discounts_form'>
+    <%= form_with url: merchant_discounts_path(@merchant), local: true do |f| %>
+        <%= f.label :percentage_discount, "Percentage Discount:" %>
+        <%= f.number_field :percentage_discount %>
+        <%= f.label :quantity_threshold, "Quantity Threshold:" %>
+        <%= f.number_field :quantity_threshold %>
+        <%= f.submit "Create New Discount" %>
+    <% end %>
+<div>
