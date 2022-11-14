@@ -54,6 +54,7 @@ RSpec.describe 'bulk discounts index page' do
 
     it 'has links to each bulk discount show page' do
       visit merchant_discounts_path(merchant1)
+
       within '#current_discounts' do
         expect(page).to have_link("Discount #{bulk_discount1.id}")
         expect(page).to have_link("Discount #{bulk_discount2.id}")
@@ -62,7 +63,19 @@ RSpec.describe 'bulk discounts index page' do
 
         click_link("Discount #{bulk_discount1.id}")
       end
+
       expect(current_path).to eq(merchant_discount_path(merchant1, bulk_discount1))
+    end
+
+    it 'has a link to create a new discount' do
+      visit merchant_discounts_path(merchant1)
+
+      within '#new_discount' do
+        expect(page).to have_link('Create New Discount')
+        click_link('Create New Discount')
+      end
+
+      expect(current_path).to eq(new_merchant_discount_path(merchant1))
     end
   end
 end
