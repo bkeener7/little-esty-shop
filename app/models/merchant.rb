@@ -28,7 +28,6 @@ class Merchant < ApplicationRecord
       .order(:created_at)
   end
 
-  # top 5 most popular items
   def top_items_by_revenue
     items
       .joins(invoices: :transactions)

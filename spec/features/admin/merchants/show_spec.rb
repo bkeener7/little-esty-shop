@@ -8,10 +8,6 @@ RSpec.describe 'admin/merchants-show page' do
     @merchant_4 = Merchant.create!(name: 'Image')
   end
 
-  # US 25 As an admin,
-  # When I click on the name of a merchant from the admin merchants index page,
-  # Then I am taken to that merchant's admin show page (/admin/merchants/merchant_id)
-  # And I see the name of that merchant
   describe 'when I click on the name of the merchant I am taken to the merchant show page' do
     it "each name links to an merchants' show page" do
       visit '/admin/merchants'

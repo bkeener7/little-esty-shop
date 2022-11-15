@@ -9,25 +9,25 @@ RSpec.describe 'admin/merchants index page' do
     @merchant_5 = Merchant.create!(name: 'Wonders', status: 'enabled')
     @merchant_6 = Merchant.create!(name: 'Disney', status: 'enabled')
 
-    @customer1 = Customer.create!(first_name: 'Peter', last_name: 'Parker') # 1/1
-    @customer2 = Customer.create!(first_name: 'Clark', last_name: 'Kent') # 3/0
-    @customer3 = Customer.create!(first_name: 'Louis', last_name: 'Lane') # 2/0
-    @customer4 = Customer.create!(first_name: 'Lex', last_name: 'Luther') # 0/0
-    @customer5 = Customer.create!(first_name: 'Frank', last_name: 'Castle') # 1/0
-    @customer6 = Customer.create!(first_name: 'Matt', last_name: 'Murdock') # 1/0
-    @customer7 = Customer.create!(first_name: 'Bruce', last_name: 'Wayne') # 0/1
+    @customer1 = Customer.create!(first_name: 'Peter', last_name: 'Parker')
+    @customer2 = Customer.create!(first_name: 'Clark', last_name: 'Kent')
+    @customer3 = Customer.create!(first_name: 'Louis', last_name: 'Lane')
+    @customer4 = Customer.create!(first_name: 'Lex', last_name: 'Luther')
+    @customer5 = Customer.create!(first_name: 'Frank', last_name: 'Castle')
+    @customer6 = Customer.create!(first_name: 'Matt', last_name: 'Murdock')
+    @customer7 = Customer.create!(first_name: 'Bruce', last_name: 'Wayne')
 
-    @invoice1 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('21.01.28')) # marvel
-    @invoice2 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.08.22')) # marvel
-    @invoice3 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.07.04')) # marvel
-    @invoice4 = Invoice.create!(status: 'cancelled', customer_id: @customer4.id, created_at: Time.parse('21.09.14')) # marvel
-    @invoice5 = Invoice.create!(status: 'completed', customer_id: @customer5.id, created_at: Time.parse('22.10.10')) # marvel
-    @invoice6 = Invoice.create!(status: 'completed', customer_id: @customer6.id, created_at: Time.parse('22.10.15')) # marvel
-    @invoice7 = Invoice.create!(status: 'completed', customer_id: @customer7.id, created_at: Time.parse('21.12.25')) # D.C.
-    @invoice8 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('20.02.22')) # D.C.
-    @invoice9 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.06.12')) # marvel
-    @invoice10 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.03.14')) # marvel
-    @invoice11 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.03.17')) # marvel
+    @invoice1 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('21.01.28'))
+    @invoice2 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.08.22'))
+    @invoice3 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.07.04'))
+    @invoice4 = Invoice.create!(status: 'cancelled', customer_id: @customer4.id, created_at: Time.parse('21.09.14'))
+    @invoice5 = Invoice.create!(status: 'completed', customer_id: @customer5.id, created_at: Time.parse('22.10.10'))
+    @invoice6 = Invoice.create!(status: 'completed', customer_id: @customer6.id, created_at: Time.parse('22.10.15'))
+    @invoice7 = Invoice.create!(status: 'completed', customer_id: @customer7.id, created_at: Time.parse('21.12.25'))
+    @invoice8 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('20.02.22'))
+    @invoice9 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.06.12'))
+    @invoice10 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.03.14'))
+    @invoice11 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.03.17'))
 
     @item1 = Item.create!(name: 'Beanie Babies', description: 'Investments', unit_price: 100, merchant_id: @merchant_1.id)
     @item2 = Item.create!(name: 'Bat-A-Rangs', description: 'Weapons', unit_price: 500, merchant_id: @merchant_2.id)
