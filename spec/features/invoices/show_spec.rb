@@ -53,14 +53,14 @@ RSpec.describe 'Merchant Invoice Show Page' do
       it 'Then I see all of my items on the invoice including: Item name, The quantity of the item ordered, The price the Item sold for, The Invoice Item status, And I do not see any information related to Items for other merchants' do
         within "#item-#{item2.id}" do
           expect(page).to have_content("Name: #{item2.name}")
-          expect(page).to have_content("Price: #{item2.unit_price}")
+          expect(page).to have_content("Price: $#{item2.unit_price_dollars}")
           expect(page).to have_content("Quantity: #{item2.invoice_items.first.quantity}")
           expect(page).to have_content("Status: #{item2.invoice_items.first.status}")
         end
 
         within "#item-#{item1.id}" do
           expect(page).to have_content("Name: #{item1.name}")
-          expect(page).to have_content("Price: #{item1.unit_price}")
+          expect(page).to have_content("Price: $#{item1.unit_price_dollars}")
           expect(page).to have_content("Quantity: #{item1.invoice_items.first.quantity}")
           expect(page).to have_content("Status: #{item1.invoice_items.first.status}")
         end
@@ -70,8 +70,9 @@ RSpec.describe 'Merchant Invoice Show Page' do
 
       it 'I see the total revenue that will be generated from all of my items on the invoice' do
         within '#total_invoice_revenue' do
-          expect(page).to have_content("Total Invoice Revenue: #{invoice1.total_revenue}¢")
+          expect(page).to have_content("Total Invoice Revenue: $#{invoice1.total_revenue}")
         end
+        save_and_open_page
       end
 
       it 'has a select field with current status that can be changed to update status' do
@@ -111,6 +112,13 @@ RSpec.describe 'Merchant Invoice Show Page' do
           expect(item2.invoice_items.first.status).to eq('packaged')
           expect(find('form')).to have_content('packaged')
         end
+      end
+
+      xit 'sees total discounted revenue for merchant from this invoice' do
+        within '#total_discounted_revenue' do
+          expect(page).to have_content("Total Discounted Invoice Revenue: #{invoice1.discounted_invoice_revenue}¢")
+        end
+        save_and_open_page
       end
     end
   end

@@ -19,4 +19,8 @@ class Item < ApplicationRecord
       .first
       .created_at
   end
+
+  def unit_price_dollars
+    (unit_price / 100.00).round(2)
+  end
 end

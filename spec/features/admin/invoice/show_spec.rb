@@ -46,7 +46,7 @@ RSpec.describe 'admin/invoices/invoice.id' do
     it 'I see the total revenue that will be generated from this invoice' do
       visit "/admin/invoices/#{@invoice_1.id}"
 
-      expect(page).to have_content('Total Revenue of All Items: 222')
+      expect(page).to have_content("Total Revenue of All Items: $#{@invoice_1.total_revenue}")
     end
 
     it 'can update invoice status from a select field' do
