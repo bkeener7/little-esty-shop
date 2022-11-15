@@ -94,5 +94,14 @@ RSpec.describe 'bulk discounts index page' do
         expect(page).to_not have_link("Discount #{bulk_discount1.id}")
       end
     end
+
+    it 'has a section for the next upcoming 3 US holidays' do
+      holidays = HolidaySearch.new.upcoming_holidays
+      within '#upcoming_holidays' do
+        expect(page).to have_content("#{holidays[0].name} Date: #{holidays[0].date}")
+        expect(page).to have_content("#{holidays[1].name} Date: #{holidays[1].date}")
+        expect(page).to have_content("#{holidays[2].name} Date: #{holidays[2].date}")
+      end
+    end
   end
 end
