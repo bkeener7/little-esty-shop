@@ -60,7 +60,7 @@ James W. - [https://github.com/James-E-White](https://github.com/James-E-White)
 
 William L. - [https://github.com/WilliamLampke](https://github.com/WilliamLampke)
 
-Project Link: [https://github.com/bkeener7/little-esty-shop)
+Project Link: [https://github.com/bkeener7/little-esty-shop](https://github.com/bkeener7/little-esty-shop)
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
