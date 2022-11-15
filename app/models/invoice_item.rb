@@ -7,4 +7,11 @@ class InvoiceItem < ApplicationRecord
   validates_presence_of :quantity, :unit_price, :status, :item_id, :invoice_id
 
   enum status: { pending: 0, packaged: 1, shipped: 2 }
+
+  def discount_applied
+    bulk_discounts
+      .where('bulk_discounts.quantity_threshold <= ?', quantity)
+      .order('bulk_discounts.percentage_discount desc')
+      .first
+  end
 end

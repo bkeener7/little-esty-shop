@@ -32,7 +32,7 @@ RSpec.describe 'Merchant Invoice Show Page' do
   let!(:transaction3) { create(:transaction, invoice: invoice3) }
   let!(:transaction4) { create(:transaction, invoice: invoice4) }
 
-  let!(:bulk_discount1) { create(:bulk_discount, merchant: merchant1) }
+  let!(:bulk_discount1) { create(:bulk_discount, merchant: merchant1, percentage_discount: 100, quantity_threshold: 1) }
   let!(:bulk_discount2) { create(:bulk_discount, merchant: merchant1) }
   let!(:bulk_discount3) { create(:bulk_discount, merchant: merchant1) }
   let!(:bulk_discount4) { create(:bulk_discount, merchant: merchant1) }
@@ -124,6 +124,14 @@ RSpec.describe 'Merchant Invoice Show Page' do
         within '#total_discounted_revenue' do
           expect(page).to have_content("Total Discounted Invoice Revenue: $#{invoice1.revenue_with_discounts}")
         end
+      end
+
+      it 'has a link next to each invoice item to see discounts applied (if any)' do
+        within "#item-#{item1.id}" do
+          expect(page).to have_link("Discount ##{bulk_discount1.id}")
+          click_link("Discount ##{bulk_discount1.id}")
+        end
+        expect(current_path).to eq(merchant_discount_path(merchant1, bulk_discount1))
       end
     end
   end
