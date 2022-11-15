@@ -17,4 +17,17 @@ class Invoice < ApplicationRecord
       .where('invoice_items.status=0 OR invoice_items.status=1')
       .order(:created_at)
   end
+
+  def total_discounted
+    invoice_items
+      .joins(:bulk_discounts)
+      .where('invoice_items.quantity >= bulk_discounts.quantity_threshold')
+      .select('MAX((invoice_items.unit_price *.01) * invoice_items.quantity * (bulk_discounts.percentage_discount * .001))')
+      .sum(&:max)
+      .round(2)
+  end
+
+  def revenue_with_discounts
+    (total_revenue - total_discounted).round(2)
+  end
 end

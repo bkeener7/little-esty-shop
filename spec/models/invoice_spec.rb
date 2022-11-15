@@ -35,11 +35,11 @@ RSpec.describe Invoice, type: :model do
     @invoice_7 = Invoice.create!(customer_id: @customer_2.id, status: 1)
     @invoice_8 = Invoice.create!(customer_id: @customer_4.id, status: 1)
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 1)
-    @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
-    @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_1.id, quantity: 2, unit_price: 10, status: 1)
-    @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_1.id, quantity: 3, unit_price: 10, status: 1)
-    @ii_5 = InvoiceItem.create!(invoice_id: @invoice_5.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
+    InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 1)
+    InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
+    InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_1.id, quantity: 2, unit_price: 10, status: 1)
+    InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_1.id, quantity: 3, unit_price: 10, status: 1)
+    InvoiceItem.create!(invoice_id: @invoice_5.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
 
     @transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: @invoice_1.id)
     @transaction_2 = Transaction.create!(credit_card_number: '2', result: 0, invoice_id: @invoice_2.id)
@@ -60,39 +60,47 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe 'instance methods' do
-    describe '#total_revenue' do
-      it 'totals revenue from all invoice items' do
-        customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
-        merchant = Merchant.create!(name: 'Test')
-        item_1 = Item.create!(name: 'item1', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
-        item_2 = Item.create!(name: 'item2', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
-        invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 1)
-        ii_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 9, unit_price: 10,
-                                   status: 1)
-        ii_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_2.id, quantity: 9, unit_price: 10,
-                                   status: 1)
-        transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
-        transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
-
-        expect(invoice_1.total_revenue).to eq(1.80)
-      end
+    before :each do
+      @customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
+      @merchant = Merchant.create!(name: 'Test')
+      @discount1 = BulkDiscount.create!(percentage_discount: 10, quantity_threshold: 100, merchant: @merchant)
+      @discount2 = BulkDiscount.create!(percentage_discount: 8, quantity_threshold: 100, merchant: @merchant)
+      @discount3 = BulkDiscount.create!(percentage_discount: 50, quantity_threshold: 1000, merchant: @merchant)
+      @item_1 = Item.create!(name: 'item1', description: 'desc1', unit_price: 500, merchant_id: @merchant.id)
+      @item_2 = Item.create!(name: 'item2', description: 'desc1', unit_price: 980, merchant_id: @merchant.id)
+      @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 1)
+      @ii1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 500, status: 1)
+      @ii2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 138, unit_price: 980, status: 1)
+      @transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: @invoice_1.id)
+      @transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: @invoice_1.id)
     end
 
-    describe 'total_revenue' do
-      it 'totals revenue from all invoice items' do
-        customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
-        merchant = Merchant.create!(name: 'Test')
-        item_1 = Item.create!(name: 'item1', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
-        item_2 = Item.create!(name: 'item2', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
-        invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 1)
-        ii_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 9, unit_price: 10,
-                                   status: 1)
-        ii_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_2.id, quantity: 9, unit_price: 10,
-                                   status: 1)
-        transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
-        transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
-        expect(invoice_1.total_revenue).to eq(1.80)
-      end
+    it 'totals revenue from all invoice items in dollars' do
+      expect(@invoice_1.total_revenue).to eq(1397.40)
+    end
+
+    it 'can find invoice items that qualify for discount in dollars' do
+      expect(@invoice_1.total_discounted).to eq(13.52)
+    end
+
+    it 'can find total revenue after discounts in dollars' do
+      expect(@invoice_1.revenue_with_discounts).to eq(1383.88)
+    end
+  end
+
+  describe 'total_revenue' do
+    it 'totals revenue from all invoice items' do
+      customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
+      merchant = Merchant.create!(name: 'Test')
+      item_1 = Item.create!(name: 'item1', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
+      item_2 = Item.create!(name: 'item2', description: 'desc1', unit_price: 10, merchant_id: merchant.id)
+      invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 1)
+      InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 9, unit_price: 10, status: 1)
+      InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_2.id, quantity: 9, unit_price: 10, status: 1)
+      transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
+      transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
+
+      expect(invoice_1.total_revenue).to eq(1.80)
     end
   end
 end

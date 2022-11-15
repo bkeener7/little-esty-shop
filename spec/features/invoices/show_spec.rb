@@ -34,8 +34,12 @@ RSpec.describe 'Merchant Invoice Show Page' do
 
   let!(:bulk_discount1) { create(:bulk_discount, merchant: merchant1) }
   let!(:bulk_discount2) { create(:bulk_discount, merchant: merchant1) }
-  let!(:bulk_discount3) { create(:bulk_discount, merchant: merchant2) }
-  let!(:bulk_discount4) { create(:bulk_discount, merchant: merchant2) }
+  let!(:bulk_discount3) { create(:bulk_discount, merchant: merchant1) }
+  let!(:bulk_discount4) { create(:bulk_discount, merchant: merchant1) }
+  let!(:bulk_discount5) { create(:bulk_discount, merchant: merchant2) }
+  let!(:bulk_discount6) { create(:bulk_discount, merchant: merchant2) }
+  let!(:bulk_discount7) { create(:bulk_discount, merchant: merchant2) }
+  let!(:bulk_discount8) { create(:bulk_discount, merchant: merchant2) }
 
   before :each do
     visit merchant_invoice_path(merchant1, invoice1)
@@ -72,7 +76,6 @@ RSpec.describe 'Merchant Invoice Show Page' do
         within '#total_invoice_revenue' do
           expect(page).to have_content("Total Invoice Revenue: $#{invoice1.total_revenue}")
         end
-        save_and_open_page
       end
 
       it 'has a select field with current status that can be changed to update status' do
@@ -114,11 +117,13 @@ RSpec.describe 'Merchant Invoice Show Page' do
         end
       end
 
-      xit 'sees total discounted revenue for merchant from this invoice' do
-        within '#total_discounted_revenue' do
-          expect(page).to have_content("Total Discounted Invoice Revenue: #{invoice1.discounted_invoice_revenue}¢")
+      it 'sees total discounted revenue for merchant from this invoice' do
+        within '#total_discounts' do
+          expect(page).to have_content("Total Discounts: $#{invoice1.total_discounted}")
         end
-        save_and_open_page
+        within '#total_discounted_revenue' do
+          expect(page).to have_content("Total Discounted Invoice Revenue: $#{invoice1.revenue_with_discounts}")
+        end
       end
     end
   end
