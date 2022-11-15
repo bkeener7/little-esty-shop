@@ -20,7 +20,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/DarbySmith/little-esty-shop">
+  <a href="https://github.com/bkeener7/little-esty-shop">
     <img src="https://user-images.githubusercontent.com/101418582/201154904-c31757eb-e363-41bf-9c54-35730b8e2885.jpg" alt="Logo" width="400" height="200">
   </a>
 
@@ -40,7 +40,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-[https://cryptic-bastion-43446.herokuapp.com/](https://cryptic-bastion-43446.herokuapp.com/)
+[https://intense-everglades-34683.herokuapp.com/](https://intense-everglades-34683.herokuapp.com/)
 
 <!-- Relationships -->
 ## Relationships
@@ -60,7 +60,7 @@ James W. - [https://github.com/James-E-White](https://github.com/James-E-White)
 
 William L. - [https://github.com/WilliamLampke](https://github.com/WilliamLampke)
 
-Project Link: [https://github.com/DarbySmith/little-esty-shop](https://github.com/DarbySmith/little-esty-shop)
+Project Link: [https://github.com/bkeener7/little-esty-shop)
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -70,7 +70,7 @@ Project Link: [https://github.com/DarbySmith/little-esty-shop](https://github.co
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/DarbySmith/little-esty-shop.svg?style=for-the-badge
-[contributors-url]: https://github.com/DarbySmith/little-esty-shop/graphs/contributors
+[contributors-url]: https://github.com/bkeener7/little-esty-shop/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
 [forks-url]: https://github.com/github_username/repo_name/network/members
 [stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
