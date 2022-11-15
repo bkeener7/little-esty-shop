@@ -6,6 +6,8 @@ RSpec.describe 'admin/invoices/invoice.id' do
 
     @merchant = Merchant.create!(name: 'Test')
 
+    @discount1 = BulkDiscount.create!(percentage_discount: 50, quantity_threshold: 10, merchant: @merchant)
+
     @item_1 = Item.create!(name: 'item1', description: 'desc1', unit_price: 10, merchant_id: @merchant.id)
     @item_2 = Item.create!(name: 'item2', description: 'desc2', unit_price: 12, merchant_id: @merchant.id)
 
@@ -46,7 +48,7 @@ RSpec.describe 'admin/invoices/invoice.id' do
     it 'I see the total revenue that will be generated from this invoice' do
       visit "/admin/invoices/#{@invoice_1.id}"
 
-      expect(page).to have_content("Total Revenue of All Items: $#{@invoice_1.total_revenue}")
+      expect(page).to have_content("Total Invoice Revenue: $#{@invoice_1.total_revenue}")
     end
 
     it 'can update invoice status from a select field' do
@@ -54,6 +56,16 @@ RSpec.describe 'admin/invoices/invoice.id' do
       choose(:status, option: 'in progress')
       click_on 'Update Invoice Status'
       expect(page).to have_content('Status: in progress')
+    end
+
+    it 'shows see discounted revenue' do
+      visit admin_invoice_path(@invoice_1)
+      within '#total_discounts' do
+        expect(page).to have_content("Total Discounts: $#{@invoice_1.total_discounted}")
+      end
+      within '#total_discounted_revenue' do
+        expect(page).to have_content("Total Discounted Invoice Revenue: $#{@invoice_1.revenue_with_discounts}")
+      end
     end
   end
 end

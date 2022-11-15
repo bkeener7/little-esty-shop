@@ -22,5 +22,11 @@
     <h5>Status: <%= invoice_item.status %></h5>
     </div>
 <% end %>
-<br>
-<h2>Total Revenue of All Items: $<%= @invoice.total_revenue %></h2>
+<div id="total_invoice_revenue">
+  <p><b>Total Invoice Revenue: </b>$<%= "#{@invoice.total_revenue}"%>
+</div>
+<div id='total_discounts'>
+  <p><b>Total Discounts: </b>$<%= "#{@invoice.total_discounted}"%>
+<div id='total_discounted_revenue'>
+  <p><b>Total Discounted Invoice Revenue: </b>$<%= "#{@invoice.revenue_with_discounts}" %>
+</div>
