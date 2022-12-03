@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   # admin
-  get '/admin', to: 'admin#index'
+  resources :admin, only: [:index]
 
   namespace :admin do
     resources :merchants, only: [:index, :create, :new, :show, :edit, :update]
