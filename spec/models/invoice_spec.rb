@@ -1,19 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Invoice, type: :model do
-  describe 'relationships' do
-    it { should belong_to :customer }
-    it { should have_many :invoice_items }
-    it { should have_many :transactions }
-    it { should have_many(:items).through(:invoice_items) }
-    it { should have_many(:merchants).through(:items) }
-  end
-
-  describe 'validations' do
-    it { should validate_presence_of :status }
-    it { should validate_presence_of :customer_id }
-  end
-
   before :each do
     @customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
     @customer_2 = Customer.create!(first_name: 'Bryan', last_name: 'Keener')
@@ -49,6 +36,19 @@ RSpec.describe Invoice, type: :model do
     @transaction_6 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_6.id)
     @transaction_7 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_7.id)
     @transaction_8 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_8.id)
+  end
+
+  describe 'relationships' do
+    it { should belong_to :customer }
+    it { should have_many :invoice_items }
+    it { should have_many :transactions }
+    it { should have_many(:items).through(:invoice_items) }
+    it { should have_many(:merchants).through(:items) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of :status }
+    it { should validate_presence_of :customer_id }
   end
 
   describe 'class methods' do

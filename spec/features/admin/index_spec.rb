@@ -1,21 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Admin#index' do
-  it 'Displays a header that user is on Admin' do
-    visit '/admin'
-    expect(page).to have_content('Admin')
-  end
-
-  it 'It has links to Admin/merchants' do
-    visit '/admin'
-    expect(page).to have_link('Merchants')
-  end
-
-  it 'It has links to Admin invoices' do
-    visit '/admin'
-    expect(page).to have_link('Invoices')
-  end
-
   before :each do
     @customer_1 = Customer.create!(first_name: 'Eli', last_name: 'Fuchsman')
     @customer_2 = Customer.create!(first_name: 'Bryan', last_name: 'Keener')
@@ -51,6 +36,21 @@ RSpec.describe 'Admin#index' do
     @transaction_6 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_6.id)
     @transaction_7 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_7.id)
     @transaction_8 = Transaction.create!(credit_card_number: '5', result: 0, invoice_id: @invoice_8.id)
+  end
+
+  it 'Displays a header that user is on Admin' do
+    visit '/admin'
+    expect(page).to have_content('Admin')
+  end
+
+  it 'has links to Admin/merchants' do
+    visit '/admin'
+    expect(page).to have_link('Merchants')
+  end
+
+  it 'has links to Admin invoices' do
+    visit '/admin'
+    expect(page).to have_link('Invoices')
   end
 
   describe 'On admin dashboard we see top 5 customers' do
