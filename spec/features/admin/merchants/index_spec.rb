@@ -90,6 +90,7 @@ RSpec.describe 'admin/merchants index page' do
     @transaction13 = Transaction.create!(credit_card_number: '4636896899878732', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice10.id)
     @transaction14 = Transaction.create!(credit_card_number: '4636896899845752', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice11.id)
   end
+
   describe 'when i visit the merchant index I see a name for each merchant' do
     it 'shows the name of each merchant' do
       visit '/admin/merchants'

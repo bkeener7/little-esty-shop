@@ -4,7 +4,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
-  validates_presence_of :status, :customer_id
+  validates :status, :customer_id, presence: true
 
   enum status: { 'in progress' => 0, completed: 1, cancelled: 2 }
 

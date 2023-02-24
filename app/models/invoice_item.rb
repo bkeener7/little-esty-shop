@@ -4,7 +4,7 @@ class InvoiceItem < ApplicationRecord
   has_one :merchant, through: :item
   has_many :bulk_discounts, through: :merchant
 
-  validates_presence_of :quantity, :unit_price, :status, :item_id, :invoice_id
+  validates :quantity, :unit_price, :status, :item_id, :invoice_id, presence: true
 
   enum status: { pending: 0, packaged: 1, shipped: 2 }
 
