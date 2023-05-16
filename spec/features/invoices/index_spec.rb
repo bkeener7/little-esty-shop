@@ -1,45 +1,43 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Invoices Index page' do
-  before :each do
-    @merchant1 = Merchant.create!(name: 'Marvel')
-    @customer1 = Customer.create!(first_name: 'Peter', last_name: 'Parker')
+RSpec.describe 'Merchant Invoices Index page', type: :feature do
+  let(:merchant) { create(:merchant, name: 'Marvel') }
+  let(:customer) { create(:customer, first_name: 'Peter', last_name: 'Parker') }
+  let(:item1) { create(:item, name: 'Beanie Babies', description: 'Investments', unit_price: 100, merchant: merchant) }
+  let(:item2) { create(:item, name: 'Bat-A-Rangs', description: 'Weapons', unit_price: 100, merchant: merchant) }
+  let(:invoice1) { create(:invoice, status: 'completed', customer: customer) }
 
-    @item1 = Item.create!(name: 'Beanie Babies', description: 'Investments', unit_price: 100, merchant_id: @merchant1.id)
-    @item2 = Item.create!(name: 'Bat-A-Rangs', description: 'Weapons', unit_price: 100, merchant_id: @merchant1.id)
-
-    @invoice1 = Invoice.create!(status: 'completed', customer_id: @customer1.id)
-
-    InvoiceItem.create(quantity: 5, unit_price: 500, status: 'packaged', item_id: @item1.id, invoice_id: @invoice1.id)
-    InvoiceItem.create(quantity: 15, unit_price: 1500, status: 'packaged', item_id: @item2.id, invoice_id: @invoice1.id)
+  before do
+    create(:invoice_item, quantity: 5, unit_price: 500, status: 'packaged', item: item1, invoice: invoice1)
+    create(:invoice_item, quantity: 15, unit_price: 1500, status: 'packaged', item: item2, invoice: invoice1)
   end
 
   describe 'As a merchant' do
-    describe "When I visit my merchant's invoices index (/merchants/merchant_id/invoices)" do
-      it "Then I see all of the invoices that include at least one of my merchant's items" do
-        visit "/merchants/#{@merchant1.id}/invoices"
+    describe "When I visit my merchant's invoices index" do
+      it "displays all the invoices that include at least one of my merchant's items" do
+        visit merchant_invoices_path(merchant)
 
         expect(page).to have_content('Invoices:')
-        expect(@merchant1.invoices.count).to eq(1)
+        expect(merchant.invoices.count).to eq(1)
       end
 
-      it ' And for each invoice I see its id' do
-        visit "/merchants/#{@merchant1.id}/invoices"
+      it 'displays the id of each invoice' do
+        visit merchant_invoices_path(merchant)
 
         within('#invoice_ids') do
-          expect(page).to have_content("Invoice: #{@invoice1.id}")
+          expect(page).to have_content("Invoice: #{invoice1.id}")
         end
       end
 
-      it 'And each id links to the merchant invoice show page' do
-        visit "/merchants/#{@merchant1.id}/invoices"
+      it 'links each invoice id to the merchant invoice show page' do
+        visit merchant_invoices_path(merchant)
 
         within('#invoice_ids') do
-          expect(page).to have_link("#{@invoice1.id}")
+          expect(page).to have_link("#{invoice1.id}")
 
-          click_link("#{@invoice1.id}")
+          click_link("#{invoice1.id}")
 
-          expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}")
+          expect(current_path).to eq(merchant_invoice_path(merchant, invoice1))
         end
       end
     end

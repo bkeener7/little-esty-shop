@@ -37,8 +37,9 @@ RSpec.describe 'bulk discounts new page' do
   let!(:bulk_discount4) { create(:bulk_discount, merchant: merchant2) }
 
   describe 'when I visit my bulk discounts new page' do
-    it 'sees a form to create a new bulk discount' do
-      visit new_merchant_discount_path(merchant1)
+    before { visit new_merchant_discount_path(merchant1) }
+
+    it 'displays a form to create a new bulk discount' do
       within '#new_discounts_form' do
         expect(page).to have_selector(:css, 'form')
         expect(page).to have_content('Percentage Discount:')
@@ -50,8 +51,6 @@ RSpec.describe 'bulk discounts new page' do
     end
 
     it 'can fill in the form, click create and is redirected back to show page' do
-      visit new_merchant_discount_path(merchant1)
-
       within '#new_discounts_form' do
         fill_in(:percentage_discount, with: 50)
         fill_in(:quantity_threshold, with: 99)
@@ -66,13 +65,10 @@ RSpec.describe 'bulk discounts new page' do
     end
 
     it 'returns an error if content is missing from the form and redirects back to new page' do
-      visit new_merchant_discount_path(merchant1)
-
       within '#new_discounts_form' do
         fill_in(:percentage_discount, with: 50)
         click_button('Create New Discount')
       end
-
       expect(current_path).to eq(new_merchant_discount_path(merchant1))
       expect(page).to have_content('Required content missing or invalid')
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Invoice Show Page' do
+RSpec.describe 'Merchant Invoice Show Page', type: :feature do
   let!(:merchant1) { create(:merchant) }
   let!(:merchant2) { create(:merchant) }
 
@@ -47,14 +47,14 @@ RSpec.describe 'Merchant Invoice Show Page' do
 
   describe 'As a merchant' do
     describe "When I visit my merchant's invoice show page" do
-      it "Then I see information related to that invoice including: Invoice id, Invoice status, Invoice created_at date in the format 'Monday, July 18, 2019', Customer first and last name" do
+      it 'displays information related to that invoice' do
         expect(page).to have_content("ID: #{invoice1.id}")
         expect(page).to have_content("Status: #{invoice1.status}")
         expect(page).to have_content('Created: Thursday, July 18, 2019')
         expect(page).to have_content("Customer: #{invoice1.customer.full_name}")
       end
 
-      it 'Then I see all of my items on the invoice including: Item name, The quantity of the item ordered, The price the Item sold for, The Invoice Item status, And I do not see any information related to Items for other merchants' do
+      it 'displays all items on the invoice' do
         within "#item-#{item2.id}" do
           expect(page).to have_content("Name: #{item2.name}")
           expect(page).to have_content("Price: $#{item2.unit_price_dollars}")
@@ -69,18 +69,18 @@ RSpec.describe 'Merchant Invoice Show Page' do
           expect(page).to have_content("Status: #{item1.invoice_items.first.status}")
         end
 
-        expect(page).to_not have_content(item3.name)
+        expect(page).not_to have_content(item3.name)
       end
 
-      it 'I see the total revenue that will be generated from all of my items on the invoice' do
+      it 'displays the total revenue generated from all items on the invoice' do
         within '#total_invoice_revenue' do
           expect(page).to have_content("Total Invoice Revenue: $#{invoice1.total_revenue}")
         end
       end
 
-      it 'has a select field with current status that can be changed to update status' do
+      it 'allows updating the status of items' do
         within "#item-#{item1.id}" do
-          expect(page).to have_selector(:css, 'form')
+          expect(page).to have_selector('form')
           expect(find('form')).to have_content("#{item1.invoice_items.first.status}")
           expect(item1.invoice_items.first.status).to eq('packaged')
 
@@ -94,8 +94,8 @@ RSpec.describe 'Merchant Invoice Show Page' do
           expect(find('form')).to have_content('shipped')
         end
 
-        within("#item-#{item2.id}") do
-          expect(page).to have_selector(:css, 'form')
+        within "#item-#{item2.id}" do
+          expect(page).to have_selector('form')
           expect(find('form')).to have_content("#{item2.invoice_items.first.status}")
           expect(item2.invoice_items.first.status).to eq('packaged')
 
@@ -117,7 +117,7 @@ RSpec.describe 'Merchant Invoice Show Page' do
         end
       end
 
-      it 'sees total discounted revenue for merchant from this invoice' do
+      it 'displays total discounted revenue for the merchant from this invoice' do
         within '#total_discounts' do
           expect(page).to have_content("Total Discounts: $#{invoice1.total_discounted}")
         end
@@ -126,7 +126,7 @@ RSpec.describe 'Merchant Invoice Show Page' do
         end
       end
 
-      it 'has a link next to each invoice item to see discounts applied (if any)' do
+      it 'has a link next to each invoice item to see applied discounts' do
         within "#item-#{item1.id}" do
           expect(page).to have_link("Discount ##{bulk_discount1.id}")
           click_link("Discount ##{bulk_discount1.id}")
