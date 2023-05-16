@@ -34,6 +34,6 @@ RSpec.describe 'admin/merchants-show page' do
     click_button 'Submit'
 
     expect(current_path).to eq(edit_admin_merchant_path(merchant_1))
-    expect(page).to have_content('Empty name not permitted. Please input a valid name.')
+    expect(page).to have_content('Empty name not permitted. Please input valid name')
   end
 end
