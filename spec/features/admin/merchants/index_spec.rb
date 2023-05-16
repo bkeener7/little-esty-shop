@@ -1,216 +1,203 @@
 require 'rails_helper'
 
 RSpec.describe 'admin/merchants index page' do
-  before :each do
-    @merchant_1 = Merchant.create!(name: 'Marvel', status: 'enabled')
-    @merchant_2 = Merchant.create!(name: 'D.C.', status: 'disabled')
-    @merchant_3 = Merchant.create!(name: 'Darkhorse', status: 'enabled')
-    @merchant_4 = Merchant.create!(name: 'Image', status: 'disabled')
-    @merchant_5 = Merchant.create!(name: 'Wonders', status: 'enabled')
-    @merchant_6 = Merchant.create!(name: 'Disney', status: 'enabled')
+  let!(:merchant_1) { create(:merchant, name: 'Marvel', status: 'enabled') }
+  let!(:merchant_2) { create(:merchant, name: 'D.C.', status: 'disabled') }
+  let!(:merchant_3) { create(:merchant, name: 'Darkhorse', status: 'enabled') }
+  let!(:merchant_4) { create(:merchant, name: 'Image', status: 'disabled') }
+  let!(:merchant_5) { create(:merchant, name: 'Wonders', status: 'enabled') }
+  let!(:merchant_6) { create(:merchant, name: 'Disney', status: 'enabled') }
 
-    @customer1 = Customer.create!(first_name: 'Peter', last_name: 'Parker')
-    @customer2 = Customer.create!(first_name: 'Clark', last_name: 'Kent')
-    @customer3 = Customer.create!(first_name: 'Louis', last_name: 'Lane')
-    @customer4 = Customer.create!(first_name: 'Lex', last_name: 'Luther')
-    @customer5 = Customer.create!(first_name: 'Frank', last_name: 'Castle')
-    @customer6 = Customer.create!(first_name: 'Matt', last_name: 'Murdock')
-    @customer7 = Customer.create!(first_name: 'Bruce', last_name: 'Wayne')
+  let!(:customer1) { create(:customer, first_name: 'Peter', last_name: 'Parker') }
+  let!(:customer2) { create(:customer, first_name: 'Clark', last_name: 'Kent') }
+  let!(:customer3) { create(:customer, first_name: 'Louis', last_name: 'Lane') }
+  let!(:customer4) { create(:customer, first_name: 'Lex', last_name: 'Luther') }
+  let!(:customer5) { create(:customer, first_name: 'Frank', last_name: 'Castle') }
+  let!(:customer6) { create(:customer, first_name: 'Matt', last_name: 'Murdock') }
+  let!(:customer7) { create(:customer, first_name: 'Bruce', last_name: 'Wayne') }
 
-    @invoice1 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('21.01.28'))
-    @invoice2 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.08.22'))
-    @invoice3 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.07.04'))
-    @invoice4 = Invoice.create!(status: 'cancelled', customer_id: @customer4.id, created_at: Time.parse('21.09.14'))
-    @invoice5 = Invoice.create!(status: 'completed', customer_id: @customer5.id, created_at: Time.parse('22.10.10'))
-    @invoice6 = Invoice.create!(status: 'completed', customer_id: @customer6.id, created_at: Time.parse('22.10.15'))
-    @invoice7 = Invoice.create!(status: 'completed', customer_id: @customer7.id, created_at: Time.parse('21.12.25'))
-    @invoice8 = Invoice.create!(status: 'completed', customer_id: @customer1.id, created_at: Time.parse('20.02.22'))
-    @invoice9 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.06.12'))
-    @invoice10 = Invoice.create!(status: 'completed', customer_id: @customer2.id, created_at: Time.parse('22.03.14'))
-    @invoice11 = Invoice.create!(status: 'completed', customer_id: @customer3.id, created_at: Time.parse('22.03.17'))
+  let!(:invoice1) { create(:invoice, status: 'completed', customer: customer1, created_at: Time.parse('21.01.28')) }
+  let!(:invoice2) { create(:invoice, status: 'completed', customer: customer2, created_at: Time.parse('22.08.22')) }
+  let!(:invoice3) { create(:invoice, status: 'completed', customer: customer3, created_at: Time.parse('22.07.04')) }
+  let!(:invoice4) { create(:invoice, status: 'cancelled', customer: customer4, created_at: Time.parse('21.09.14')) }
+  let!(:invoice5) { create(:invoice, status: 'completed', customer: customer5, created_at: Time.parse('22.10.10')) }
+  let!(:invoice6) { create(:invoice, status: 'completed', customer: customer6, created_at: Time.parse('22.10.15')) }
+  let!(:invoice7) { create(:invoice, status: 'completed', customer: customer7, created_at: Time.parse('21.12.25')) }
+  let!(:invoice8) { create(:invoice, status: 'completed', customer: customer1, created_at: Time.parse('20.02.22')) }
+  let!(:invoice9) { create(:invoice, status: 'completed', customer: customer2, created_at: Time.parse('22.06.12')) }
+  let!(:invoice10) { create(:invoice, status: 'completed', customer: customer2, created_at: Time.parse('22.03.14')) }
+  let!(:invoice11) { create(:invoice, status: 'completed', customer: customer3, created_at: Time.parse('22.03.17')) }
 
-    @item1 = Item.create!(name: 'Beanie Babies', description: 'Investments', unit_price: 100, merchant_id: @merchant_1.id)
-    @item2 = Item.create!(name: 'Bat-A-Rangs', description: 'Weapons', unit_price: 500, merchant_id: @merchant_2.id)
-    @item3 = Item.create!(name: 'Bat Mask', description: 'Identity Protection', unit_price: 800, merchant_id: @merchant_2.id)
-    @item4 = Item.create!(name: 'Leotard', description: 'Costume', unit_price: 1850, merchant_id: @merchant_3.id)
-    @item5 = Item.create!(name: 'Cape', description: 'Fully Functional', unit_price: 900, merchant_id: @merchant_4.id)
-    @item6 = Item.create!(name: 'Black Makeup', description: 'Gallon Sized', unit_price: 50, merchant_id: @merchant_5.id)
-    @item7 = Item.create!(name: 'Batmobile', description: 'Only one left in stock', unit_price: 1000000, merchant_id: @merchant_5.id)
-    @item8 = Item.create!(name: 'Night-Vision Goggles', description: 'Required for night activities', unit_price: 15000, merchant_id: @merchant_6.id)
-    @item9 = Item.create!(name: 'Bat-Cave', description: 'Bats not included', unit_price: 10000000, merchant_id: @merchant_6.id)
+  let!(:item1) { create(:item, name: 'Beanie Babies', description: 'Investments', unit_price: 100, merchant: merchant_1) }
+  let!(:item2) { create(:item, name: 'Bat-A-Rangs', description: 'Weapons', unit_price: 500, merchant: merchant_2) }
+  let!(:item3) { create(:item, name: 'Bat Mask', description: 'Identity Protection', unit_price: 800, merchant: merchant_2) }
+  let!(:item4) { create(:item, name: 'Leotard', description: 'Costume', unit_price: 1850, merchant: merchant_3) }
+  let!(:item5) { create(:item, name: 'Cape', description: 'Fully Functional', unit_price: 900, merchant: merchant_4) }
+  let!(:item6) { create(:item, name: 'Black Makeup', description: 'Gallon Sized', unit_price: 50, merchant: merchant_5) }
+  let!(:item7) { create(:item, name: 'Batmobile', description: 'Only one left in stock', unit_price: 1000000, merchant: merchant_5) }
+  let!(:item8) { create(:item, name: 'Night-Vision Goggles', description: 'Required for night activities', unit_price: 15000, merchant: merchant_6) }
+  let!(:item9) { create(:item, name: 'Bat-Cave', description: 'Bats not included', unit_price: 10000000, merchant: merchant_6) }
 
-    InvoiceItem.create!(quantity: 5, unit_price: 500, status: 'packaged', item_id: @item1.id, invoice_id: @invoice1.id)
-    InvoiceItem.create!(quantity: 1, unit_price: 100, status: 'shipped', item_id: @item1.id, invoice_id: @invoice2.id)
-    InvoiceItem.create!(quantity: 6, unit_price: 600, status: 'pending', item_id: @item1.id, invoice_id: @invoice3.id)
-    InvoiceItem.create!(quantity: 12, unit_price: 1200, status: 'packaged', item_id: @item1.id, invoice_id: @invoice4.id)
-    InvoiceItem.create!(quantity: 8, unit_price: 800, status: 'packaged', item_id: @item1.id, invoice_id: @invoice5.id)
-    InvoiceItem.create!(quantity: 20, unit_price: 2000, status: 'packaged', item_id: @item1.id, invoice_id: @invoice6.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item1.id, invoice_id: @invoice9.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item1.id, invoice_id: @invoice10.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item1.id, invoice_id: @invoice11.id)
+  let!(:invoice_item1) { create(:invoice_item, quantity: 5, unit_price: 500, status: 'packaged', item: item1, invoice: invoice1) }
+  let!(:invoice_item2) { create(:invoice_item, quantity: 1, unit_price: 100, status: 'shipped', item: item1, invoice: invoice2) }
+  let!(:invoice_item3) { create(:invoice_item, quantity: 6, unit_price: 600, status: 'pending', item: item1, invoice: invoice3) }
+  let!(:invoice_item4) { create(:invoice_item, quantity: 12, unit_price: 1200, status: 'packaged', item: item1, invoice: invoice4) }
+  let!(:invoice_item5) { create(:invoice_item, quantity: 8, unit_price: 800, status: 'packaged', item: item1, invoice: invoice5) }
+  let!(:invoice_item6) { create(:invoice_item, quantity: 20, unit_price: 2000, status: 'packaged', item: item1, invoice: invoice6) }
+  let!(:invoice_item7) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item1, invoice: invoice9) }
+  let!(:invoice_item8) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item1, invoice: invoice10) }
+  let!(:invoice_item9) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item1, invoice: invoice11) }
+  let!(:invoice_item10) { create(:invoice_item, quantity: 50, unit_price: 5000, status: 'shipped', item: item2, invoice: invoice7) }
+  let!(:invoice_item11) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item2, invoice: invoice8) }
+  let!(:invoice_item12) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item3, invoice: invoice7) }
+  let!(:invoice_item13) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item3, invoice: invoice11) }
+  let!(:invoice_item14) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item3, invoice: invoice11) }
+  let!(:invoice_item15) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item4, invoice: invoice11) }
+  let!(:invoice_item16) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item4, invoice: invoice6) }
+  let!(:invoice_item17) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item4, invoice: invoice6) }
+  let!(:invoice_item18) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item5, invoice: invoice11) }
+  let!(:invoice_item19) { create(:invoice_item, quantity: 30, unit_price: 1500, status: 'shipped', item: item6, invoice: invoice8) }
+  let!(:invoice_item20) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item6, invoice: invoice8) }
+  let!(:invoice_item21) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item6, invoice: invoice8) }
+  let!(:invoice_item22) { create(:invoice_item, quantity: 15, unit_price: 1500, status: 'shipped', item: item7, invoice: invoice11) }
+  let!(:invoice_item23) { create(:invoice_item, quantity: 5, unit_price: 1500, status: 'shipped', item: item7, invoice: invoice11) }
+  let!(:invoice_item24) { create(:invoice_item, quantity: 10, unit_price: 100, status: 'shipped', item: item8, invoice: invoice11) }
+  let!(:invoice_item25) { create(:invoice_item, quantity: 15, unit_price: 100, status: 'shipped', item: item8, invoice: invoice11) }
+  let!(:invoice_item26) { create(:invoice_item, quantity: 11, unit_price: 1350, status: 'shipped', item: item9, invoice: invoice11) }
+  let!(:invoice_item27) { create(:invoice_item, quantity: 4, unit_price: 1350, status: 'shipped', item: item9, invoice: invoice11) }
 
-    InvoiceItem.create!(quantity: 50, unit_price: 5000, status: 'shipped', item_id: @item2.id, invoice_id: @invoice7.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item2.id, invoice_id: @invoice8.id)
+  let!(:transaction1) { create(:transaction, credit_card_number: '4801647818676136', result: 'failed', invoice: invoice1) }
+  let!(:transaction2) { create(:transaction, credit_card_number: '4654405418249632', result: 'success', invoice: invoice1) }
+  let!(:transaction3) { create(:transaction, credit_card_number: '4800749911485986', result: 'success', invoice: invoice2) }
+  let!(:transaction4) { create(:transaction, credit_card_number: '4923661117104166', result: 'success', invoice: invoice3) }
+  let!(:transaction5) { create(:transaction, credit_card_number: '4536896899874279', result: 'failed', invoice: invoice4) }
+  let!(:transaction6) { create(:transaction, credit_card_number: '4536896899874280', result: 'failed', invoice: invoice4) }
+  let!(:transaction7) { create(:transaction, credit_card_number: '4536896899874281', result: 'success', invoice: invoice5) }
+  let!(:transaction8) { create(:transaction, credit_card_number: '4536896899874286', result: 'failed', invoice: invoice6) }
+  let!(:transaction9) { create(:transaction, credit_card_number: '4636896899874290', result: 'success', invoice: invoice6) }
+  let!(:transaction10) { create(:transaction, credit_card_number: '4636896899874291', result: 'success', invoice: invoice7) }
+  let!(:transaction11) { create(:transaction, credit_card_number: '4636896899874298', result: 'success', invoice: invoice8) }
+  let!(:transaction12) { create(:transaction, credit_card_number: '4636896899878732', result: 'success', invoice: invoice9) }
+  let!(:transaction13) { create(:transaction, credit_card_number: '4636896899878732', result: 'success', invoice: invoice10) }
+  let!(:transaction14) { create(:transaction, credit_card_number: '4636896899845752', result: 'success', invoice: invoice11) }
 
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item3.id, invoice_id: @invoice7.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item3.id, invoice_id: @invoice11.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item3.id, invoice_id: @invoice11.id)
-
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item4.id, invoice_id: @invoice11.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item4.id, invoice_id: @invoice6.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item4.id, invoice_id: @invoice6.id)
-
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item5.id, invoice_id: @invoice11.id)
-
-    InvoiceItem.create!(quantity: 30, unit_price: 1500, status: 'shipped', item_id: @item6.id, invoice_id: @invoice8.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item6.id, invoice_id: @invoice8.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item6.id, invoice_id: @invoice8.id)
-
-    InvoiceItem.create!(quantity: 15, unit_price: 1500, status: 'shipped', item_id: @item7.id, invoice_id: @invoice11.id)
-    InvoiceItem.create!(quantity: 5, unit_price: 1500, status: 'shipped', item_id: @item7.id, invoice_id: @invoice11.id)
-
-    InvoiceItem.create!(quantity: 10, unit_price: 100, status: 'shipped', item_id: @item8.id, invoice_id: @invoice11.id)
-    InvoiceItem.create!(quantity: 15, unit_price: 100, status: 'shipped', item_id: @item8.id, invoice_id: @invoice11.id)
-
-    InvoiceItem.create!(quantity: 11, unit_price: 1350, status: 'shipped', item_id: @item9.id, invoice_id: @invoice11.id)
-    InvoiceItem.create!(quantity: 4, unit_price: 1350, status: 'shipped', item_id: @item9.id, invoice_id: @invoice11.id)
-
-    @transaction1 = Transaction.create!(credit_card_number: '4801647818676136', credit_card_expiration_date: nil, result: 'failed', invoice_id: @invoice1.id)
-    @transaction2 = Transaction.create!(credit_card_number: '4654405418249632', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice1.id)
-    @transaction3 = Transaction.create!(credit_card_number: '4800749911485986', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice2.id)
-    @transaction4 = Transaction.create!(credit_card_number: '4923661117104166', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice3.id)
-    @transaction5 = Transaction.create!(credit_card_number: '4536896899874279', credit_card_expiration_date: nil, result: 'failed', invoice_id: @invoice4.id)
-    @transaction6 = Transaction.create!(credit_card_number: '4536896899874280', credit_card_expiration_date: nil, result: 'failed', invoice_id: @invoice4.id)
-    @transaction7 = Transaction.create!(credit_card_number: '4536896899874281', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice5.id)
-    @transaction8 = Transaction.create!(credit_card_number: '4536896899874286', credit_card_expiration_date: nil, result: 'failed', invoice_id: @invoice6.id)
-    @transaction9 = Transaction.create!(credit_card_number: '4636896899874290', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice6.id)
-    @transaction10 = Transaction.create!(credit_card_number: '4636896899874291', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice7.id)
-    @transaction11 = Transaction.create!(credit_card_number: '4636896899874298', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice8.id)
-    @transaction12 = Transaction.create!(credit_card_number: '4636896899878732', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice9.id)
-    @transaction13 = Transaction.create!(credit_card_number: '4636896899878732', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice10.id)
-    @transaction14 = Transaction.create!(credit_card_number: '4636896899845752', credit_card_expiration_date: nil, result: 'success', invoice_id: @invoice11.id)
-  end
-
-  describe 'when i visit the merchant index I see a name for each merchant' do
+  describe 'when I visit the merchant index I see a name for each merchant' do
     it 'shows the name of each merchant' do
-      visit '/admin/merchants'
-
-      expect(page).to have_content(@merchant_1.name)
-      expect(page).to have_content(@merchant_2.name)
-      expect(page).to have_content(@merchant_3.name)
-      expect(page).to have_content(@merchant_4.name)
+      visit admin_merchants_path
+      expect(page).to have_content(merchant_1.name)
+      expect(page).to have_content(merchant_2.name)
+      expect(page).to have_content(merchant_3.name)
+      expect(page).to have_content(merchant_4.name)
     end
 
-    it "each name links to an merchants' show page" do
-      visit '/admin/merchants'
+    it "each name links to a merchant's show page" do
+      visit admin_merchants_path
 
       within('#disabled_merchants') do
-        expect(page).to have_link(@merchant_2.name)
-        expect(page).to have_link(@merchant_4.name)
+        expect(page).to have_link(merchant_2.name, href: admin_merchant_path(merchant_2))
+        expect(page).to have_link(merchant_4.name, href: admin_merchant_path(merchant_4))
       end
 
       within('#enabled_merchants') do
-        expect(page).to have_link(@merchant_1.name)
-        expect(page).to have_link(@merchant_3.name)
-        expect(page).to have_link(@merchant_5.name)
-        expect(page).to have_link(@merchant_6.name)
-        click_on "#{@merchant_1.name}"
+        expect(page).to have_link(merchant_1.name, href: admin_merchant_path(merchant_1))
+        expect(page).to have_link(merchant_3.name, href: admin_merchant_path(merchant_3))
+        expect(page).to have_link(merchant_5.name, href: admin_merchant_path(merchant_5))
+        expect(page).to have_link(merchant_6.name, href: admin_merchant_path(merchant_6))
+        click_on merchant_1.name
       end
 
-      expect(current_path).to eq("/admin/merchants/#{@merchant_1.id}")
+      expect(current_path).to eq(admin_merchant_path(merchant_1))
     end
   end
 
-  describe 'as an admin I see a button to update a merchants status' do
-    it 'has a buttons next to each merchant to enable or disable' do
-      visit '/admin/merchants'
-
-      within("#merchant-#{@merchant_1.id}") do
-        expect(page).to have_content(@merchant_1.name)
+  describe 'as an admin, I see a button to update a merchants status' do
+    it 'has buttons next to each merchant to enable or disable' do
+      visit admin_merchants_path
+      within("#merchant-#{merchant_1.id}") do
+        expect(page).to have_content(merchant_1.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
-
-      within("#merchant-#{@merchant_2.id}") do
-        expect(page).to have_content(@merchant_2.name)
+      within("#merchant-#{merchant_2.id}") do
+        expect(page).to have_content(merchant_2.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_3.id}") do
-        expect(page).to have_content(@merchant_3.name)
+      within("#merchant-#{merchant_3.id}") do
+        expect(page).to have_content(merchant_3.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_4.id}") do
-        expect(page).to have_content(@merchant_4.name)
+      within("#merchant-#{merchant_4.id}") do
+        expect(page).to have_content(merchant_4.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
     end
 
-    it 'can disable a merchant by clicking disable button' do
-      visit '/admin/merchants'
+    it 'can disable a merchant by clicking the disable button' do
+      visit admin_merchants_path
 
-      within("#merchant-#{@merchant_1.id}") do
-        expect(page).to have_content(@merchant_1.name)
+      within("#merchant-#{merchant_1.id}") do
+        expect(page).to have_content(merchant_1.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
 
         click_button 'Disable'
-        expect(current_path).to eq('/admin/merchants')
+        expect(current_path).to eq(admin_merchants_path)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_2.id}") do
-        expect(page).to have_content(@merchant_2.name)
+      within("#merchant-#{merchant_2.id}") do
+        expect(page).to have_content(merchant_2.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_3.id}") do
-        expect(page).to have_content(@merchant_3.name)
+      within("#merchant-#{merchant_3.id}") do
+        expect(page).to have_content(merchant_3.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_4.id}") do
-        expect(page).to have_content(@merchant_4.name)
+      within("#merchant-#{merchant_4.id}") do
+        expect(page).to have_content(merchant_4.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
     end
 
-    it 'can enable a merchant by clicking enable button' do
-      visit '/admin/merchants'
+    it 'can enable a merchant by clicking the enable button' do
+      visit admin_merchants_path
 
-      within("#merchant-#{@merchant_1.id}") do
-        expect(page).to have_content(@merchant_1.name)
+      within("#merchant-#{merchant_1.id}") do
+        expect(page).to have_content(merchant_1.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_2.id}") do
-        expect(page).to have_content(@merchant_2.name)
+      within("#merchant-#{merchant_2.id}") do
+        expect(page).to have_content(merchant_2.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
 
         click_button 'Enable'
-        expect(current_path).to eq('/admin/merchants')
+        expect(current_path).to eq(admin_merchants_path)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_3.id}") do
-        expect(page).to have_content(@merchant_3.name)
+      within("#merchant-#{merchant_3.id}") do
+        expect(page).to have_content(merchant_3.name)
         expect(page).to_not have_button('Enable')
         expect(page).to have_button('Disable')
       end
 
-      within("#merchant-#{@merchant_4.id}") do
-        expect(page).to have_content(@merchant_4.name)
+      within("#merchant-#{merchant_4.id}") do
+        expect(page).to have_content(merchant_4.name)
         expect(page).to have_button('Enable')
         expect(page).to_not have_button('Disable')
       end
@@ -218,33 +205,32 @@ RSpec.describe 'admin/merchants index page' do
   end
 
   describe 'top 5 merchants displayed on admin merchants index' do
-    it 'displays top 5 merchants with highest total revenue based on unit_price * quantity' do
-      visit '/admin/merchants'
-
+    it 'displays the top 5 merchants with the highest total revenue based on unit_price * quantity' do
+      visit admin_merchants_path
       within('#top_merchants') do
-        expect("#{@merchant_2.name}").to appear_before("#{@merchant_1.name}")
-        expect("#{@merchant_1.name}").to appear_before("#{@merchant_5.name}")
-        expect("#{@merchant_5.name}").to appear_before("#{@merchant_3.name}")
-        expect("#{@merchant_3.name}").to appear_before("#{@merchant_6.name}")
-        expect(page).to_not have_content(@merchant_4)
+        expect("#{merchant_2.name}").to appear_before("#{merchant_1.name}")
+        expect("#{merchant_1.name}").to appear_before("#{merchant_5.name}")
+        expect("#{merchant_5.name}").to appear_before("#{merchant_3.name}")
+        expect("#{merchant_3.name}").to appear_before("#{merchant_6.name}")
+        expect(page).to_not have_content(merchant_4)
       end
     end
 
     it 'has links to the show page of each top merchant' do
-      visit '/admin/merchants'
+      visit admin_merchants_path
 
       within('#top_merchants') do
-        expect(page).to have_link(@merchant_1.name)
-        expect(page).to have_link(@merchant_2.name)
-        expect(page).to have_link(@merchant_3.name)
-        expect(page).to have_link(@merchant_5.name)
-        expect(page).to have_link(@merchant_6.name)
-        expect(page).to_not have_link(@merchant_4.name)
+        expect(page).to have_link(merchant_1.name)
+        expect(page).to have_link(merchant_2.name)
+        expect(page).to have_link(merchant_3.name)
+        expect(page).to have_link(merchant_5.name)
+        expect(page).to have_link(merchant_6.name)
+        expect(page).not_to have_link(merchant_4.name)
       end
     end
 
-    it 'has the top selling date for each of the top 5 merchants' do
-      visit '/admin/merchants'
+    it 'displays the top selling date for each of the top 5 merchants' do
+      visit admin_merchants_path
 
       within('#top_merchants') do
         expect(page).to have_content('Top selling date was 12/25/2021')
