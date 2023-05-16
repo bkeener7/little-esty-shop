@@ -1,11 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe 'welcome page' do
-  it 'has link to merchants page' do
-    visit '/'
+RSpec.describe 'Welcome Page', type: :feature do
+  before :each do
+    visit root_path
+  end
 
-    expect(page).to have_link('Admin')
-    expect(page).to have_link('Admin Merchants')
-    expect(page).to have_link('Admin Invoices')
+  describe 'links' do
+    it 'has a link to the Admin page' do
+      expect(page).to have_link('Admin')
+    end
+
+    it 'has a link to the Admin Merchants page' do
+      expect(page).to have_link('Admin Merchants')
+    end
+
+    it 'has a link to the Admin Invoices page' do
+      expect(page).to have_link('Admin Invoices')
+    end
   end
 end
