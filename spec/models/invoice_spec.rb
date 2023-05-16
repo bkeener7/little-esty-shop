@@ -97,8 +97,8 @@ RSpec.describe Invoice, type: :model do
       invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 1)
       InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 9, unit_price: 10, status: 1)
       InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_2.id, quantity: 9, unit_price: 10, status: 1)
-      transaction_1 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
-      transaction_2 = Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
+      Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
+      Transaction.create!(credit_card_number: '1', result: 0, invoice_id: invoice_1.id)
 
       expect(invoice_1.total_revenue).to eq(1.80)
     end
