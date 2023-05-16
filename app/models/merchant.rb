@@ -13,9 +13,9 @@ class Merchant < ApplicationRecord
   def top_merchant_transactions
     Customer
       .joins(invoices: [:transactions, { items: :merchant }])
-      .where("transactions.result = 0 AND merchants.id = #{id}")
+      .where(transactions: { result: 0 }, merchants: { id: id })
       .select('customers.*, count(transactions) AS transactions_count')
-      .group('id')
+      .group(:id)
       .order(transactions_count: :desc)
       .limit(5)
   end
@@ -23,7 +23,7 @@ class Merchant < ApplicationRecord
   def items_ready_to_ship
     items
       .joins(invoice_items: :invoice)
-      .where('invoice_items.status = 0 OR invoice_items.status = 1')
+      .where(invoice_items: { status: [0, 1] })
       .select('items.*, invoices.created_at AS invoice_date, invoices.id AS invoice_id')
       .order(:created_at)
   end
@@ -50,11 +50,11 @@ class Merchant < ApplicationRecord
   end
 
   def self.enabled_merchants
-    where(status: 1)
+    where(status: statuses[:enabled])
   end
 
   def self.disabled_merchants
-    where(status: 0)
+    where(status: statuses[:disabled])
   end
 
   def self.top_5_merchants
