@@ -1,100 +1,181 @@
-<a name="Little-Esty-Shop"></a>
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
--->
 
-[![Contributors][contributors-shield]][contributors-url]
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/bkeener7/little-esty-shop">
-    <img src="https://user-images.githubusercontent.com/101418582/201154904-c31757eb-e363-41bf-9c54-35730b8e2885.jpg" alt="Logo" width="400" height="200">
+    <img src="public/logo.jpg" alt="Logo">
   </a>
 
-<h1 align="center">Little Esty Shop</h1>
+  <h1 align="center">Little Esty Shop</h3>
+
+  <h3 align="center">
+    Little Esty E-Commerce Database
+    <br />
+  </h3>
 </div>
+
+<!-- TABLE OF CONTENTS -->
+<h4>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#deployment-information">Deployment Information</a></li>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#database-schema">Database Schema</a></li>
+        <li><a href="#learning-goals">Learning Goals</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+          <li><a href="#repository-installation">Repository Installation</a></li>
+          <li><a href="#gems-utilized">Gems Utilized</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</li>
+    <li><a href="#license">License</a></li></a>
+  </ol>
+</h4>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 "Little Esty Shop" is a group project that builds a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices. Learning goals included practice designing a normalized database schema and defining model relationships, utilizing advanced routing techniques, utilizing advanced Active Record techniques to perform complex database queries, and practice consuming a public API to apply OOP principles to organize code.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- Deployment Information -->
+### Deployment Information
+
+Little Esty Shop is not currently deployed 😵
+
+* ~~Heroku Deployment~~<br>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- Built With -->
 ### Built With
 
-* Ruby ~ 2.7.4
-* Rails ~ 5.2.8
+<img src="public/tech-stack.png" alt="Tech-Stack" width="90%" height="90%">
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- Database Schema -->
+### Database Schema
+
+<img src="public/schema.png" alt="Database-Schema" width="90%" height="90%">
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- Learning Goals -->
+### Learning Goals
+
+* Write migrations to create tables and relationships between tables
+* Implement CRUD functionality for a resource using forms, buttons, and links, and associated view helpers (form_with, button_to, etc)
+* Use MVC to organize code effectively, limiting the amount of logic included in views and controllers
+* Use built-in ActiveRecord methods to join multiple tables of data, make calculations, and group data based on one or more attributes
+* Write model tests that fully cover the data logic of the application
+* Write feature tests that fully cover the functionality of the application
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-[https://intense-everglades-34683.herokuapp.com/](https://intense-everglades-34683.herokuapp.com/)
+Little Esty Shop is a monolithic Rails application that provides simple Create, Read, Update, Delete (CRUD) functionality with a user-friendly interface to navigate between entries. Follow the steps below to get started with running the application on your local machine.
 
-<!-- Relationships -->
-## Relationships
+<!-- Repository Installation -->
+### Repository Installation
 
-<img src="https://user-images.githubusercontent.com/101418582/201155262-79d365b7-92e9-404d-a52f-b1480d2c096d.png" alt="Diagram">
+1. Clone the repository: `git clone https://github.com/bkeener7/little-esty-shop`
+1. Navigate to the cloned repository's directory: `cd little_esty_shop`
+1. Install gem packages: `bundle install`
+1. Setup the database: `rails db:{create,migrate,seed}`
+1. Run local RSpec test suite, all tests should be passing: `bundle exec rspec`
+1. Start the server: `rails s`
+1. Open your web browser and navigate to `localhost:3000`. You should now see the Little Esty Shop application running locally on your machine.
+
+<!-- Gems Utilized Installation -->
+### Gems Utilized
+
+- <b>Capybara</b>: Helps you test web applications by simulating how a real user would interact with your app.
+- <b>Launchy</b>: A helper for launching cross-platform applications in a fire and forget manner.
+- <b>Orderly</b>: A gem to test the order of items in a list.
+- <b>Pry</b>: An IRB alternative and runtime developer console.
+- <b>RSpec Rails</b>: Testing framework for Rails 3.x, 4.x, and 5.x.
+- <b>Shoulda Matchers</b>: Provides RSpec- and Minitest-compatible one-liners to test common Rails functionality.
+- <b>SimpleCov</b>: A code coverage analysis tool for Ruby.
+- <b>Pry Rails</b>: Integrates the Pry REPL with Rails.
+- <b>RuboCop Rails</b>: Rails-specific static code analysis.
+- <b>RuboCop RSpec</b>: Code analyzer for RSpec files.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- ROADMAP -->
+## Roadmap
+
+Stretch Goals
+
+* Refactor test suite and models.
+* Further integrate FactoryBot into testing. 
+
+See the [open issues](https://github.com/bkeener7/little-esty-shop/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
 
-Bryan K. - [https://github.com/bkeener7](https://github.com/bkeener7)
+<table>
+  <tr>
+    <td><img src="https://avatars.githubusercontent.com/u/101418582?s=150&v=4"></td>
+  </tr>
+  <tr>
+    <td>Bryan Keener</td>
 
-Darby S. - [https://github.com/DarbySmith](https://github.com/DarbySmith)
+  </tr>
+  <tr>
+    <td>
+      <img src="public/github-logo.png" alt="github"> <a href="https://github.com/bkeener7">GitHub</a><br>
+      <img src="public/linkedin-logo.png" alt="linkedin"> <a href="https://www.linkedin.com/in/bkeener/">LinkedIn</a>
+    </td>
+  </tr>
+</table>
 
-Eli F. - [https://github.com/efuchsman](https://github.com/efuchsman)
-
-James W. - [https://github.com/James-E-White](https://github.com/James-E-White)
-
-William L. - [https://github.com/WilliamLampke](https://github.com/WilliamLampke)
-
-Project Link: [https://github.com/bkeener7/little-esty-shop](https://github.com/bkeener7/little-esty-shop)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* Turing School of Software Design: [https://turing.edu/](https://turing.edu/)
+Turing School of Software Design: [https://turing.edu/](https://turing.edu/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/DarbySmith/little-esty-shop.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/bkeener7/triple_crown.svg?style=for-the-badge
 [contributors-url]: https://github.com/bkeener7/little-esty-shop/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
+[forks-shield]: https://img.shields.io/github/forks/bkeener7/triple_crown.svg?style=for-the-badge
+[forks-url]: https://github.com/bkeener7/little-esty-shop/network/members
+[stars-shield]: https://img.shields.io/github/stars/bkeener7/triple_crown.svg?style=for-the-badge
+[stars-url]: https://github.com/bkeener7/little-esty-shop/stargazers
+[issues-shield]: https://img.shields.io/github/issues/bkeener7/triple_crown.svg?style=for-the-badge
+[issues-url]: https://github.com/bkeener7/little-esty-shop/issues
+[license-shield]: https://img.shields.io/github/license/bkeener7/triple_crown.svg?style=for-the-badge
+[license-url]: https://github.com/bkeener7/little-esty-shop/blob/master/LICENSE.txt
